@@ -9,6 +9,7 @@ import OurCategories from '../OurCategories/OurCategories'
 import WelcomeCompo1 from '../../components/WelcomeComponent/WelcomeCompo1'
 import WorkingHour from '../../components/WorkingHourComponent/WorkingHour'
 import CallToAction from '../../components/CallToAction/callToAction'
+import HealthBenefits from '../../components/HealthBenefits/HealthBenefits'
 const HomePage = () => {
   return (
     <div className=''>
@@ -20,6 +21,7 @@ const HomePage = () => {
 <ServicesSlider/>
 <Category/>
 <CallToAction/>
+<HealthBenefits/>
 
     </div>
   )
