@@ -1,6 +1,8 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from '../Pages/HomePage/HomePage';
+import OurServices from '../Pages/OurServices/OurServices';
+import OurCategories from '../Pages/OurCategories/OurCategories';
 
 // import AboutUs from '../components/AboutUs/AboutUs';
 // import AboutPage from '../components/AboutPage/AboutPage';
@@ -15,6 +17,8 @@ const Index = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/services" element={<OurServices />} />
+      <Route path="/categories" element={<OurCategories />} />
     </Routes>
   );
 };

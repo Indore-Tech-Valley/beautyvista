@@ -1,0 +1,30 @@
+/* Add this to your global CSS if not already */
+.custom-pagination .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background-color: #f9a8d4; /* pink-300 */
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  border-radius: 9999px;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+  background-color: #ec4899; /* pink-500 */
+  opacity: 1;
+}
+
+/* @layer utilities {
+  @keyframes zoom {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  .animate-zoom {
+    animation: zoom 12s ease-in-out infinite;
+  }
+} */
+
