@@ -1,0 +1,27 @@
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import './App.css';
+import Index from './routes';
+
+
+// import Navbar from './components/Navbar/Navbar';
+// import Footer from './components/Footer/Footer';
+// import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+// import BackToTopButton from './components/BackToTopButton/BackToTopButton';
+
+
+function App() {
+  return (
+    // <BrowserRouter basename='/dentia-frontend-demo'>
+    <BrowserRouter  basename=''>
+     {/* <ScrollToTop /> */}
+    {/* <Navbar/> */}
+    <Index />
+    
+    {/* <BackToTopButton /> Add here */}
+    {/* <Footer/> */}
+    </BrowserRouter>
+  );
+}
+
+export default App;
