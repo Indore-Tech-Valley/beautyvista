@@ -2,7 +2,6 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import './App.css';
 import Index from './routes';
-Navbar
 import Footer from './components/Footer/Footer';
 import Navbar from './components/Navbar/Navbar';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
@@ -13,7 +12,7 @@ import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 function App() {
   return (
     // <BrowserRouter basename='/dentia-frontend-demo'>
-    <BrowserRouter  basename=''>
+    <BrowserRouter  basename='/beautyvista'>
      <ScrollToTop />
     <Navbar/>
     <Index />

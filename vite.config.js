@@ -6,7 +6,12 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
-    host: true, // bind to all network interfaces
-    port: 5173, // or any port you want
+    host: '0.0.0.0', // bind to all network interfaces
+    port: 3000, // or any port you want
   },
+  
+    build: {
+    outDir: 'build'  // This changes output folder from dist to build
+  },
+  base:'/beautyvista/',
 })
