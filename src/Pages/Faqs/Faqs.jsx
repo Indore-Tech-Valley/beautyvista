@@ -25,7 +25,6 @@ const faqData = [
   },
 ];
 
-
 const Faqs = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -34,39 +33,40 @@ const Faqs = () => {
   };
 
   return (
-    <div className="py-12 px-4 bg-white">
-        <div>
-            <BreadcrumbBanner title="Frequently Asked Questions" path="Home" image={`https://d2dfxqxblmblx4.cloudfront.net/images/hero/homepage.jpg`} />
-        </div>
-      <div className="max-w-4xl mx-auto text-center mb-10 py-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-          Frequently asked questions
-        </h2>
-        <p className="text-gray-500">
-          The rise of mobile devices transforms the way we consume information entirely and the world's most relevant channels such as Facebook.
-        </p>
-      </div>
+    <div className="w-full bg-white text-gray-800">
+      {/* Breadcrumb */}
+      {/* <BreadcrumbBanner 
+        title="Frequently Asked Questions" 
+        path="Home" 
+        image="https://d2dfxqxblmblx4.cloudfront.net/images/hero/homepage.jpg" 
+      /> */}
 
-      <div className="max-w-3xl mx-auto">
-        {faqData.map((faq, index) => (
-          <div
-            key={index}
-            className="bg-gray-100 mb-3 rounded-md overflow-hidden"
-          >
-            <button
-              onClick={() => toggle(index)}
-              className="w-full flex justify-between items-center p-4 font-semibold text-left text-gray-900 hover:bg-gray-200 transition"
-            >
-              {faq.question}
-              <span>{openIndex === index ? <FaMinus /> : <FaPlus />}</span>
-            </button>
-            {openIndex === index && (
-              <div className="px-4 pb-4 text-sm text-gray-700">
-                {faq.answer}
-              </div>
-            )}
-          </div>
-        ))}
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold text-rose-900 mb-4">Frequently Asked Questions</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Here are some common questions our clients ask. If you need further assistance, feel free to contact us anytime.
+          </p>
+        </div>
+
+        <div className="max-w-3xl mx-auto space-y-5">
+          {faqData.map((faq, index) => (
+            <div key={index} className="border border-rose-200 rounded-lg shadow-sm">
+              <button
+                onClick={() => toggle(index)}
+                className="w-full flex justify-between items-center px-6 py-4 font-semibold text-lg text-rose-900 hover:bg-rose-50 transition-all"
+              >
+                {faq.question}
+                <span className="text-rose-700">{openIndex === index ? <FaMinus /> : <FaPlus />}</span>
+              </button>
+              {openIndex === index && (
+                <div className="px-6 pb-4 text-gray-700 leading-relaxed text-md">
+                  {faq.answer}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

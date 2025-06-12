@@ -10,19 +10,29 @@ import WelcomeCompo1 from '../../components/WelcomeComponent/WelcomeCompo1'
 import WorkingHour from '../../components/WorkingHourComponent/WorkingHour'
 import CallToAction from '../../components/CallToAction/callToAction'
 import HealthBenefits from '../../components/HealthBenefits/HealthBenefits'
+import Expertise from '../../components/Expertise/Expertise'
+import Faqs from '../Faqs/Faqs'
+import ContactBanner from '../../components/ContactBanner/ContactBanner'
 const HomePage = () => {
   return (
     <div className=''>
 <Banner1/>
-<WorkingHour/>
-<WelcomeCompo1/>
-<WhyChooseUs/>
-<Appointment/>
-<ServicesSlider/>
+<ContactBanner/>
+{/* <WorkingHour/> */}
 <Category/>
 <CallToAction/>
-<HealthBenefits/>
+<ServicesSlider/>
+<div id="appointment">
+  <Appointment />
+</div>
+{/* <HealthBenefits/> */}
 
+{/* <WelcomeCompo1/>
+<WhyChooseUs/>
+
+<Expertise/> */}
+
+<Faqs/>
     </div>
   )
 }

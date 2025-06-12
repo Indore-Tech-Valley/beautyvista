@@ -1,65 +1,33 @@
 import React from 'react';
 import ServiceCard from '../../components/ServiceCard/ServiceCard';
-
-const services = [
-  {
-    id: 1,
-    title: "Party Makeup",
-    price: 49,
-    image: "https://i.ibb.co/TWx44J8/party.jpg",
-    rating: 4.5,
-    featured: true
-  },
-  {
-    id: 2,
-    title: "Bridal Makeup",
-    price: 49,
-    image: "https://i.ibb.co/VqBkxSZ/bridal.jpg",
-    rating: 4.5,
-    featured: false
-  },
-  {
-    id: 3,
-    title: "Low Bun Style",
-    price: 49,
-    image: "https://i.ibb.co/NyqSyJk/bun.jpg",
-    rating: 4.5,
-    featured: true
-  },
-  {
-    id: 4,
-    title: "Low Bun Style",
-    price: 49,
-    image: "https://i.ibb.co/NyqSyJk/bun.jpg",
-    rating: 4.5,
-    featured: true
-  },
-  {
-    id: 5,
-    title: "Low Bun Style",
-    price: 49,
-    image: "https://i.ibb.co/NyqSyJk/bun.jpg",
-    rating: 4.5,
-    featured: true
-  }
-];
+import services from '../../data/ServicesData';
+import BreadcrumbBanner from '../../components/BreadcrumbBanner/BreadcrumbBanner';
 
 const OurServices = () => {
   return (
-    <div className="py-10 px-4 md:px-8 lg:px-16">
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <p className="text-sm italic text-gray-500">Our Services</p>
-          <h2 className="text-2xl font-bold text-gray-800">Our Popular Services</h2>
+    <div className=" bg-white text-gray-800 md:pt-0 pt-12">
+       <BreadcrumbBanner
+        title="Services"
+        path="Home"
+        image="https://myhomesalon.in/wp-content/uploads/2023/06/istockphoto-1147811403-612x612-1.jpg"
+      />
+      <div className="max-w-7xl mx-auto px-6 mt-6">
+        <div className="flex justify-between items-center mb-12">
+          <div>
+            <h4 className="text-rose-700 font-semibold text-lg mb-2">Our Services</h4>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-900 leading-tight">
+              Explore Our Popular Services
+            </h2>
+          </div>
         </div>
-      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {services.map((service) => (
-         <div>
-            <ServiceCard service={service}/>
-         </div>
-        ))}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          {services.map((service) => (
+            <div key={service.id}>
+              <ServiceCard service={service} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

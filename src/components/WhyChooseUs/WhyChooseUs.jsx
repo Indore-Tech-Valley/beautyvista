@@ -1,6 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaSpa, FaCut, FaPaintBrush, FaUserFriends } from "react-icons/fa";
+import { PiScissorsLight } from "react-icons/pi";
+import { GoPeople } from "react-icons/go";
+import { HiOutlinePaintBrush } from "react-icons/hi2";
+import { PiFlowerLotusThin } from "react-icons/pi";
 
 const images = [
   "https://5.imimg.com/data5/GLADMIN/Default/2022/6/SD/BO/IV/85062/women-hair-cut-services-250x250.jpg",
@@ -8,29 +11,28 @@ const images = [
   "https://cdn.shopify.com/s/files/1/0285/1004/files/shutterstock_391326496_large.jpg?v=1530168257"
 ];
 
-
 const features = [
   {
     id: 1,
-    icon: FaSpa,
+    icon: PiFlowerLotusThin,
     title: "Luxury Spa Treatments",
     description: "Relax your body and mind with our rejuvenating spa services.",
   },
   {
     id: 2,
-    icon: FaCut,
+    icon: PiScissorsLight,
     title: "Professional Hair Styling",
     description: "Trendy haircuts and stunning hairstyles by our experts.",
   },
   {
     id: 3,
-    icon: FaPaintBrush,
+    icon: HiOutlinePaintBrush,
     title: "Creative Makeup Artistry",
     description: "Makeup for every occasion to enhance your natural beauty.",
   },
   {
     id: 4,
-    icon: FaUserFriends,
+    icon: GoPeople,
     title: "Friendly Atmosphere",
     description: "Warm and inviting space where every client feels special.",
   },
@@ -38,8 +40,9 @@ const features = [
 
 const WhyChooseUs = () => {
   return (
-    <section className="bg-white py-12 px lg:py-24">
+    <section className="bg-white lg:py-8 py-6">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 px-6">
+
         {/* Text Section */}
         <motion.div
           className="w-full lg:w-1/2 flex flex-col space-y-6"
@@ -49,11 +52,9 @@ const WhyChooseUs = () => {
           viewport={{ once: true }}
         >
           <div>
-            <h4 className="text-[#8d6e63] font-semibold text-lg mb-2">
-              Why Choose Us
-            </h4>
+            <h4 className="text-rose-900 font-semibold text-lg mb-2">Why Choose Us</h4>
             <motion.h2
-              className="mb-4 text-3xl sm:text-4xl lg:text-5xl font-bold text-[#0a1d42] leading-tight"
+              className="mb-4 text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-700 leading-tight"
               initial={{ y: 40, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -62,7 +63,7 @@ const WhyChooseUs = () => {
               Unmatched Beauty Experience
             </motion.h2>
             <motion.p
-              className="text-gray-500 text-base sm:text-lg"
+              className="text-gray-700 text-lg sm:text-xl leading-relaxed"
               initial={{ y: 40, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -82,10 +83,10 @@ const WhyChooseUs = () => {
             {features.map(({ id, icon: Icon, title, description }) => (
               <div key={id}>
                 <div className="flex items-center mb-4">
-                  <Icon className="text-pink-600 text-4xl" />
+                  <Icon className="text-rose-900 text-4xl" />
                 </div>
-                <h5 className="font-semibold text-lg text-gray-900">{title}</h5>
-                <p className="text-gray-500 mt-1">{description}</p>
+                <h5 className="font-semibold text-xl text-rose-900">{title}</h5>
+                <p className="text-base text-gray-600 leading-relaxed mt-1">{description}</p>
               </div>
             ))}
           </motion.div>

@@ -1,67 +1,70 @@
-import { FaClock, FaCalendarAlt, FaPhoneAlt } from 'react-icons/fa';
-import girlImage from '../../assets/WorkingHour/girl.jpg';
+import { Clock } from "lucide-react";
+import girlImage from "../../assets/WorkingHour/girl.jpg";
 
-function WorkingHour() {
+const WorkingHour = () => {
   const workingHours = [
-    { day: 'Mon – Fri', time: '10:00 AM – 8:00 PM' },
-    { day: 'Saturday', time: '10:00 AM – 6:00 PM' },
-    { day: 'Sunday', time: 'Closed', closed: true },
+    { day: "Mon – Fri", time: "10:00 AM – 8:00 PM" },
+    { day: "Saturday", time: "10:00 AM – 6:00 PM" },
+    { day: "Sunday", time: "Closed", closed: true },
   ];
 
   return (
-    <div className="flex flex-col lg:flex-row items-center bg-pink-50 w-full">
-      
-      {/* Image Section */}
-      <div className="w-full lg:w-1/2">
-        <img
-          src={girlImage}
-          alt="BeautyVista Working Hours"
-          className="h-[60vh] lg:h-[90vh] w-[90vw] object-cover shadow-lg rounded-xl lg:rounded-none mx-auto"
-        />
-      </div>
+    <div className="lg:py-8 py-6">
+    <section className="max-w-7xl mx-auto px-6 py-12 ">
+      <div className="md:flex md:items-stretch md:gap-12">
 
-      {/* Text Section */}
-      <div className="w-full lg:w-1/2 h-auto lg:h-[90vh] flex justify-center items-center p-6 lg:p-12">
-        <div className="max-w-lg w-full">
-          <div className='flex items-center gap-2 mb-2'>
-            <FaCalendarAlt className="text-rose-600 text-sm" />
-          <h5 className="text-sm font-semibold text-rose-600 uppercase tracking-wider">
-            BeautyVista
-          </h5>
+        {/* Left: Image */}
+        <div className="md:w-1/2 mb-10 md:mb-0 rounded-2xl overflow-hidden shadow-lg flex">
+          <img
+            src={girlImage}
+            alt="BeautyVista Working Hours"
+            className="w-full object-cover rounded-2xl"
+          />
+        </div>
+
+        {/* Right: Text */}
+        <div className="md:w-1/2 flex flex-col justify-between space-y-6">
+          <div>
+            <h2 className="mb-4 text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-700 leading-tight">
+              Working Hours
+            </h2>
+
+            <p className="text-gray-700 text-lg sm:text-xl leading-relaxed">
+              We're here to pamper you! Visit us during our open hours and enjoy the beauty experience you deserve.
+            </p>
+
+            <div className="space-y-4  pt-6">
+              {workingHours.map((item, index) => (
+                <div
+                  key={index}
+                  className={`flex justify-between items-center p-4 rounded-xl border ${
+                    item.closed
+                      ? "bg-rose-50 text-rose-600 border-rose-200"
+                      : "bg-white text-gray-800 border-gray-200"
+                  } shadow-sm`}
+                >
+                  <span className="font-semibold text-xl text-rose-900 flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-rose-500" />
+                    {item.day}
+                  </span>
+                  <span className="font-semibold text-lg text-gray-700">
+                    {item.time}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-          <h2 className="text-4xl lg:text-5xl font-bold text-rose-900 mb-4">
-            Working Hours
-          </h2>
-          <p className="text-gray-700 mb-6 leading-relaxed">
-            We're here to pamper you! Visit us during our open hours and enjoy the beauty experience you deserve.
-          </p>
 
-          {/* Schedule List */}
-          <ul className="space-y-3">
-            {workingHours.map((item, index) => (
-              <li
-                key={index}
-                className={`flex justify-between items-center p-3 rounded-lg w-full ${
-                  item.closed
-                    ? 'bg-rose-100 text-rose-600'
-                    : 'bg-white text-rose-900'
-                } hover:shadow-md transition-shadow duration-200 md:text-normal text-sm`}
-              >
-                <span className="w-[40%] font-medium flex items-center gap-3"><FaClock/>{item.day}</span>
-                <span className="w-[20%] text-center">:</span>
-                <span className="w-[40%] font-semibold">{item.time}</span>
-              </li>
-            ))}
-          </ul>
-          {/* Optional: Contact Icon or Info */}
-          <div className="flex items-center gap-2 text-sm text-gray-500 pt-4 border-t border-rose-300 mt-6">
-            <FaClock className="text-rose-400" />
+          <div className="text-base text-gray-700 mt-6 border-t pt-4 border-gray-200 flex items-center gap-2">
+            <Clock className="w-5 h-5 text-rose-400" />
             <span>Last appointment 30 minutes before closing</span>
           </div>
         </div>
+
       </div>
+    </section>
     </div>
   );
-}
+};
 
 export default WorkingHour;
