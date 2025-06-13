@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 
 const Appointment = () => {
   return (
-    <div className="lg:py-8 py-6">
-    <section className="max-w-7xl mx-auto px-6">
+    <div className="lg:py-8 py-6 bg-ro">
+    <section className="max-w-7xl mx-auto px-6 ">
       <div className="md:flex md:items-start md:gap-8">
         {/* Left: Form */}
-        <div className="md:w-1/2 bg-white rounded-2xl p-3 lg:p-6 shadow min-h-[480px] flex flex-col justify-between lg:h-[778px] md:h-[858px] sm:h-full">
+        <div className="md:w-1/2  bg-white rounded-2xl p-3 lg:p-6 shadow min-h-[480px] flex flex-col justify-between lg:h-[778px] md:h-[858px] sm:h-full">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-rose-700 leading-tight">
@@ -108,17 +108,19 @@ const Appointment = () => {
                 ></textarea>
               </div>
 
-              <Link
-                to="/"
-                className="relative group block w-full sm:w-auto text-center bg-pink-600 hover:bg-pink-700 text-white px-6 py-3 rounded-lg font-semibold text-md overflow-hidden min-w-[160px] h-[44px] transition-colors duration-300 ease-in-out"
-              >
-                <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-full">
-                  Book Now
-                </span>
-                <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 translate-y-full group-hover:translate-y-0">
-                  Book Now
-                </span>
-              </Link>
+             <Link
+  to="/"
+  className="relative group block w-full sm:w-auto text-center bg-rose-700 hover:bg-rose-800 text-white px-6 py-4 rounded-lg font-semibold text-md overflow-hidden min-w-[160px] h-[50px] transition-colors duration-300 ease-in-out"
+>
+  <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-full">
+    Book Now
+  </span>
+  <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 translate-y-full group-hover:translate-y-0">
+    Book Now
+  </span>
+</Link>
+
+              
             </form>
           </div>
         </div>

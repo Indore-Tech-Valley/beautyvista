@@ -29,7 +29,7 @@ const contactItems = [
 
 const ContactBanner = () => {
   return (
-    <div className="w-full bg-rose-100 text-rose-900 lg:py-8 py-6">
+    <div className="w-full bg-rose-50 text-rose-900 lg:py-8 py-6">
       <div className="max-w-7xl mx-auto px-6  flex flex-col md:flex-col lg:flex-row justify-around">
         {contactItems.map(({ id, icon: Icon, title, info, isLink, href }, index) => (
           <React.Fragment key={id}>

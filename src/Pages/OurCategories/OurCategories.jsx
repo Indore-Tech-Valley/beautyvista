@@ -5,7 +5,7 @@ import { categories } from '../../data/CategoriesData';
 
 const OurCategories = () => {
   return (
-    <div className="bg-white text-gray-800  md:pt-0 pt-12">
+    <div className="bg-white text-gray-800  md:pt-0 pt-12 mb-8">
       <BreadcrumbBanner
         title="Categories"
         path="Home"
@@ -13,10 +13,10 @@ const OurCategories = () => {
       />
 
       <div className="max-w-7xl mx-auto px-6 mt-6 ">
-        <div className="flex justify-between items-center mb-12">
+        <div className=" mb-12">
           <div>
-            <h4 className="text-rose-700 font-semibold text-lg mb-2">Our Categories</h4>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-900 leading-tight">
+            <h4 className="text-rose-700 font-semibold text-lg mb-2 text-left lg:text-center">Our Categories</h4>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-rose-900 leading-tight text-left lg:text-center">
               Explore Our Popular Categories
             </h2>
           </div>

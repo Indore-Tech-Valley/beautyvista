@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-white text-gray-800 py-10 border-t border-gray-300">
+    <footer className="bg-white text-gray-800 py-6 border-t border-gray-300">
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:justify-between gap-12">
 
         {/* Logo & About */}
@@ -34,6 +34,7 @@ const Footer = () => {
               <li><Link to="/services" className="hover:text-rose-700">Services</Link></li>
               <li><Link to="/categories" className="hover:text-rose-700">Categories</Link></li>
               <li><Link to="/about" className="hover:text-rose-700">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-rose-700">Contact Us</Link></li>
             </ul>
           </div>
 
@@ -72,7 +73,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom Footer */}
-      <div className="border-t border-gray-300 mt-14 pt-6 text-center text-sm text-gray-500 px-6">
+      <div className="border-t border-gray-300 mt-8 pt-6 text-center text-sm text-gray-500 px-6">
         BeautyVista © 2025 - All Rights Reserved.
       </div>
     </footer>

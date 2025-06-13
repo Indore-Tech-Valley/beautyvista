@@ -33,7 +33,7 @@ const Faqs = () => {
   };
 
   return (
-    <div className="w-full bg-white text-gray-800">
+    <div className="w-full bg-white text-gray-800 lg:py-8 py-6">
       {/* Breadcrumb */}
       {/* <BreadcrumbBanner 
         title="Frequently Asked Questions" 
@@ -41,10 +41,10 @@ const Faqs = () => {
         image="https://d2dfxqxblmblx4.cloudfront.net/images/hero/homepage.jpg" 
       /> */}
 
-      <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className="max-w-7xl mx-auto px-6 ">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold text-rose-900 mb-4">Frequently Asked Questions</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <h2 className="text-4xl font-bold text-rose-900 mb-4 lg:text-center text-left">Frequently Asked Questions</h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto text-left lg:text-center">
             Here are some common questions our clients ask. If you need further assistance, feel free to contact us anytime.
           </p>
         </div>
@@ -54,10 +54,10 @@ const Faqs = () => {
             <div key={index} className="border border-rose-200 rounded-lg shadow-sm">
               <button
                 onClick={() => toggle(index)}
-                className="w-full flex justify-between items-center px-6 py-4 font-semibold text-lg text-rose-900 hover:bg-rose-50 transition-all"
+                className="w-full flex justify-between items-center text-left px-6 py-2  text-lg hover:bg-rose-50 transition-all"
               >
                 {faq.question}
-                <span className="text-rose-700">{openIndex === index ? <FaMinus /> : <FaPlus />}</span>
+                <span className=" text-left">{openIndex === index ? <FaMinus/> : <FaPlus/>}</span>
               </button>
               {openIndex === index && (
                 <div className="px-6 pb-4 text-gray-700 leading-relaxed text-md">

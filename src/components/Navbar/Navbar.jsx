@@ -62,7 +62,7 @@ const Navbar = () => {
 
         {/* Desktop Nav */}
        <nav
-  className={`hidden md:flex gap-8 text-md font-light ${
+  className={`hidden md:flex gap-8 text-md  font-semibold ${
     isHomePage || scrolled || isMobile ? 'text-[#0a1d42]' : 'text-white'
   }`}
 >
@@ -70,22 +70,29 @@ const Navbar = () => {
           <NavLink to="/services" label="Services" />
           <NavLink to="/categories" label="Categories" />
           <NavLink to="/about" label="About Us" />
+          <NavLink to="/contact" label="Contact Us" />
         </nav>
 
         {/* Desktop Book Now Button */}
-        <div className="hidden md:block">
-          <button 
-            onClick={() => {
-              const appointmentElement = document.getElementById('appointment');
-              if (appointmentElement) {
-                appointmentElement.scrollIntoView({ behavior: 'smooth' });
-              }
-            }} 
-            className="bg-rose-900 text-white px-5 py-2 rounded-md font-medium hover:bg-[#75584f] transition"
-          >
-            Book Now
-          </button>
-        </div>
+     <div className="hidden md:block">
+  <button 
+    onClick={() => {
+      const appointmentElement = document.getElementById('appointment');
+      if (appointmentElement) {
+        appointmentElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    }} 
+    className="relative group block text-center bg-rose-700 hover:bg-rose-800 text-white px-6 py-3 rounded-md font-semibold text-md overflow-hidden min-w-[140px] h-[48px] transition-colors duration-300 ease-in-out"
+  >
+    <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-full">
+      Book Now
+    </span>
+    <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 translate-y-full group-hover:translate-y-0">
+      Book Now
+    </span>
+  </button>
+</div>
+
 
         {/* Hamburger Menu */}
         <button className="md:hidden focus:outline-none" onClick={toggleMenu}>
@@ -115,6 +122,7 @@ const Navbar = () => {
         <MobileLink to="/services" label="Services" onClick={() => setMenuOpen(false)} />
         <MobileLink to="/categories" label="Categories" onClick={() => setMenuOpen(false)} />
         <MobileLink to="/about" label="About Us" onClick={() => setMenuOpen(false)} />
+        <MobileLink to="/contact" label="Contact Us" onClick={() => setMenuOpen(false)} />
 
         {/* Book Now inside Mobile Menu */}
         <div className="mt-6">

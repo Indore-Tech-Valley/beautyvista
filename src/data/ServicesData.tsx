@@ -1,12 +1,12 @@
  const services = [
-  // {
-  //   id: 1,
-  //   title: "Party Makeup",
-  //   price: 49,
-  //   image: "http://shivanigargbrides.com/wp-content/uploads/2022/11/makeup-artist-covering-model-face-by-powder-min.jpg",
-  //   rating: 4.5,
-  //   featured: true
-  // },
+  {
+    id: 1,
+    title: "Party Makeup",
+    price: 49,
+    image: "http://shivanigargbrides.com/wp-content/uploads/2022/11/makeup-artist-covering-model-face-by-powder-min.jpg",
+    rating: 4.5,
+    featured: true
+  },
   {
     id: 2,
     title: "Bridal Makeup",
@@ -23,14 +23,14 @@
     rating: 4.5,
     featured: true
   },
-  // {
-  //   id: 4,
-  //   title: "Party Makeup",
-  //   price: 49,
-  //   image: "http://shivanigargbrides.com/wp-content/uploads/2022/11/makeup-artist-covering-model-face-by-powder-min.jpg",
-  //   rating: 4.5,
-  //   featured: true
-  // },
+  {
+    id: 4,
+    title: "Party Makeup",
+    price: 49,
+    image: "http://shivanigargbrides.com/wp-content/uploads/2022/11/makeup-artist-covering-model-face-by-powder-min.jpg",
+    rating: 4.5,
+    featured: true
+  },
   {
     id: 5,
     title: "Bridal Makeup",

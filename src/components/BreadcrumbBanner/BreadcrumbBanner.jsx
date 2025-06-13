@@ -3,7 +3,7 @@ import React from "react";
 const BreadcrumbBanner = ({ title, path = "Home",image }) => {
   return (
     <div
-      className="w-full h-48 bg-cover bg-center flex items-center justify-center"
+      className="w-full h-48 lg:h-56 bg-cover bg-center flex items-center justify-center "
       style={{
         backgroundImage: `url('${image}')`, // Replace with your image path
         backgroundColor: 'rgba(0, 0, 0, 0.6)',
