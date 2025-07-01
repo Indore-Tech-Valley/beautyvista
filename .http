@@ -1,0 +1,2 @@
+GET http://192.168.1.120:8000/api/v1/notification/get-updates
+Accept: "text/event-stream"transfer-encoding: chunkedConnection: closeevent: connection-established

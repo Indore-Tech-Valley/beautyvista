@@ -8,11 +8,13 @@ import OurServices from '../OurServices/OurServices'
 import OurCategories from '../OurCategories/OurCategories'
 import WelcomeCompo1 from '../../components/WelcomeComponent/WelcomeCompo1'
 import WorkingHour from '../../components/WorkingHourComponent/WorkingHour'
-import CallToAction from '../../components/CallToAction/callToAction'
+// import CallToAction from '../../components/CallToAction/callToAction'
+
 import HealthBenefits from '../../components/HealthBenefits/HealthBenefits'
 import Expertise from '../../components/Expertise/Expertise'
-import Faqs from '../Faqs/Faqs'
+import Faqs from '../../components/Faqs/Faqs'
 import ContactBanner from '../../components/ContactBanner/ContactBanner'
+import CallToAction from '../../components/CallToAction/CallToAction'
 const HomePage = () => {
   return (
     <div className=''>

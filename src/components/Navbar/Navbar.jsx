@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../../assets/Logo.png';
-import { useLocation } from 'react-router-dom'; // Add this
-
 
 const Navbar = () => {
-  const location = useLocation(); // Get current route
-  const isHomePage = location.pathname === '/'; // Check if we're on the home page
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  const isHomePage = location.pathname === '/';
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,11 +14,13 @@ const Navbar = () => {
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+  // ✅ Handle screen resize to detect mobile view
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     handleResize();
     window.addEventListener('resize', handleResize);
 
+    // ✅ Scroll behavior to show/hide navbar and apply background
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setScrolled(currentScrollY > 50);
@@ -34,38 +35,50 @@ const Navbar = () => {
     };
   }, [lastScrollY]);
 
+  
+  useEffect(() => {
+  if (window.location.hash === '#appointment') {
+    const el = document.getElementById('appointment');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+}, []);
+
+  // ✅ Toggle hamburger menu
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  // ✅ Navigate to homepage and scroll to #appointment
+  const goToAppointment = () => {
+    if (isHomePage) {
+      const appointmentElement = document.getElementById('appointment');
+      if (appointmentElement) {
+        appointmentElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate('/#appointment');
+    }
+    setMenuOpen(false); // close mobile menu
+  };
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full z-50 transition-transform duration-300 ${
+      className={`fixed top-0 left-0 w-full z-50 transition-transform duration-500 ${
         scrolled || isMobile ? 'bg-white shadow-md' : 'bg-transparent'
       } ${showNavbar ? 'translate-y-0' : '-translate-y-full'}`}
     >
       <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-        {/* Logo */}
+        {/* ✅ Logo */}
         <Link to="/">
           <div className="flex items-center gap-2">
             <img src={logo} alt="BeautyVista Logo" className="h-8 w-auto object-contain" />
           </div>
         </Link>
 
-        {/* Old Logo (commented out) */}
-        {/*
-        <Link to="/">
-          <div className="flex items-center gap-2">
-            <BiLeaf className="text-rose-700 text-4xl" />
-            <h2 className="text-xl font-semibold tracking-wide text-rose-900">BeautyVista</h2>
-          </div>
-        </Link>
-        */}
-
-        {/* Desktop Nav */}
-       <nav
-  className={`hidden md:flex gap-8 text-md  font-semibold ${
-    isHomePage || scrolled || isMobile ? 'text-[#0a1d42]' : 'text-white'
-  }`}
->
+        {/* ✅ Desktop Navigation */}
+        <nav
+          className={`hidden md:flex gap-8 text-md font-semibold ${
+            isHomePage || scrolled || isMobile ? 'text-[#0a1d42]' : 'text-white'
+          }`}
+        >
           <NavLink to="/" label="Home" />
           <NavLink to="/services" label="Services" />
           <NavLink to="/categories" label="Categories" />
@@ -73,28 +86,22 @@ const Navbar = () => {
           <NavLink to="/contact" label="Contact Us" />
         </nav>
 
-        {/* Desktop Book Now Button */}
-     <div className="hidden md:block">
-  <button 
-    onClick={() => {
-      const appointmentElement = document.getElementById('appointment');
-      if (appointmentElement) {
-        appointmentElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    }} 
-    className="relative group block text-center bg-rose-700 hover:bg-rose-800 text-white px-6 py-3 rounded-md font-semibold text-md overflow-hidden min-w-[140px] h-[48px] transition-colors duration-300 ease-in-out"
-  >
-    <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-full">
-      Book Now
-    </span>
-    <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 translate-y-full group-hover:translate-y-0">
-      Book Now
-    </span>
-  </button>
-</div>
+        {/* ✅ Book Now Button (Desktop) */}
+        <div className="hidden md:block">
+          <button
+            onClick={goToAppointment}
+            className="relative group block text-center bg-rose-700 hover:bg-rose-800 text-white px-6 py-3 rounded-md font-semibold text-md overflow-hidden min-w-[140px] h-[48px] transition-colors duration-300 ease-in-out"
+          >
+            <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-full">
+              Book Now
+            </span>
+            <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 translate-y-full group-hover:translate-y-0">
+              Book Now
+            </span>
+          </button>
+        </div>
 
-
-        {/* Hamburger Menu */}
+        {/* ✅ Hamburger Icon (Mobile) */}
         <button className="md:hidden focus:outline-none" onClick={toggleMenu}>
           <svg
             className="w-7 h-7 text-rose-900"
@@ -112,7 +119,7 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Nav */}
+      {/* ✅ Mobile Menu */}
       <div
         className={`md:hidden transition-all duration-500 ease-in-out overflow-hidden ${
           menuOpen ? 'max-h-screen opacity-100 pb-6 px-4 ' : 'max-h-0 opacity-0 py-0 px-4'
@@ -124,16 +131,10 @@ const Navbar = () => {
         <MobileLink to="/about" label="About Us" onClick={() => setMenuOpen(false)} />
         <MobileLink to="/contact" label="Contact Us" onClick={() => setMenuOpen(false)} />
 
-        {/* Book Now inside Mobile Menu */}
+        {/* ✅ Book Now Button (Mobile) */}
         <div className="mt-6">
-          <button 
-            onClick={() => {
-              setMenuOpen(false);
-              const appointmentElement = document.getElementById('appointment');
-              if (appointmentElement) {
-                appointmentElement.scrollIntoView({ behavior: 'smooth' });
-              }
-            }} 
+          <button
+            onClick={goToAppointment}
             className="w-full bg-rose-900 text-white px-5 py-3 rounded-md font-semibold hover:bg-[#75584f] transition"
           >
             Book Now
@@ -144,13 +145,15 @@ const Navbar = () => {
   );
 };
 
+// ✅ Reusable Desktop NavLink
 const NavLink = ({ to, label }) => (
   <Link to={to} className="relative group">
-    <span className="transition-colors duration-300">{label}</span>
-    <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#8d6e63] transition-all duration-300 group-hover:w-full"></span>
+    <span className="transition-colors duration-600">{label}</span>
+    <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-rose-700 transition-all duration-300 group-hover:w-full"></span>
   </Link>
 );
 
+// ✅ Reusable Mobile NavLink
 const MobileLink = ({ to, label, onClick }) => (
   <Link to={to} onClick={onClick} className="block py-3 text-[#0a1d42] font-medium">
     {label}

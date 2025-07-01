@@ -1,33 +1,42 @@
-/* Add this to your global CSS if not already */
-.custom-pagination .swiper-pagination-bullet {
-  width: 10px;
-  height: 10px;
-  background-color: #f9a8d4; /* pink-300 */
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
+Chrome, Safari, Edge
+.custom-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Hide scrollbar buttons (arrows) */
+.custom-scroll::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Optional: style the track and thumb */
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background-color: #be123c; /* Tailwind's rose-700 */
   border-radius: 9999px;
 }
 
-.custom-pagination .swiper-pagination-bullet-active {
-  background-color: #ec4899; /* pink-500 */
-  opacity: 1;
+/* Firefox */
+.custom-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #be123c transparent;
 }
 
-/* @layer utilities {
-  @keyframes zoom {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-  }
+/* Firefox */
+.custom-scroll {
+  scrollbar-width: none;
+}
 
-  .animate-zoom {
-    animation: zoom 12s ease-in-out infinite;
-  }
+/* Chrome/Safari */
+.custom-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+
+/* Fix slick-slide layout for flex children */
+/* .slick-slide > div {
+  display: flex !important;
+  height: 100%;
 } */
-
-html {
-  scroll-behavior: smooth;
-}

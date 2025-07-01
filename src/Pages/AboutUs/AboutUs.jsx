@@ -7,7 +7,7 @@ import CallToAction from "../../components/CallToAction/CallToAction";
 
 const AboutUs = () => {
   return (
-    <div className="bg-white text-gray-800 md:pt-0 pt-12">
+    <div className="bg-white text-gray-800 md:pt-0 pt-12m min-h-screen">
       {/* Breadcrumb */}
       <BreadcrumbBanner
         title="About Us"
