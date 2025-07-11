@@ -18,11 +18,13 @@ const Category = () => {
     (state) => state.categories || {}
   );
 
+  
+
   useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 
-  console.log(categories)
+  // console.log(categories)
 
   const settings = {
     lazyLoad: "ondemand",

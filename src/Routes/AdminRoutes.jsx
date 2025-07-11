@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 
 // Pages
@@ -13,20 +13,31 @@ import Appointments from '../Admin/pages/Appoinments/Appoinments';
 import Config from '../Admin/pages/Config/Config';
 import ContactForms from '../Admin/pages/ContactForms/ContactForms';
 import Testimonials from '../Admin/pages/Testimonials.jsx/Testimonilas';
-import Faqs from '../Admin/pages/Faqs/faqs';
+// import Faqs from '../Admin/pages/Faqs/faqs';
 import Users from '../Admin/pages/Users/Users';
+import Faqs from '../Admin/pages/Faqs/Faqs';
+// import { authToken } from '../../config';
 
 const AdminRoutes = () => {
   const location = useLocation();
-  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(null); // null = loading
+  // const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(null); // null = loading
+  const isAdminLoggedIn=Cookies.get("authToken");
 
-  useEffect(() => {
-    const token = Cookies.get("authToken");
-    setIsAdminLoggedIn(!!token);
-  }, [location]);
+// const navigate = useNavigate(); // A
+
+//   useEffect(() => {
+//     const token = Cookies.get("authToken");
+//     setIsAdminLoggedIn(!!token);
+//   }, [location]);
+
+// useEffect(() => {
+//   if (!authToken) {
+//     navigate("/admin");
+//   }
+// }, [authToken, navigate]);
 
   // ⛔ Prevent route flickering until token is checked
-  if (isAdminLoggedIn === null) return null;
+  // if (isAdminLoggedIn === null) return null;
 
   return (
     <Routes>
@@ -55,6 +66,7 @@ const AdminRoutes = () => {
             <Route path="testimonials" element={<Testimonials />} />
            <Route path="contactforms" element={<ContactForms />} />
            <Route path="contactforms/:id" element={<ContactForms />} />
+
 
           </Route>
         </>

@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { NOTIFICATION_URL  , authToken} from "../../../../config";
-
+import { NOTIFICATION_URL } from "../../../../config";
+import Cookies from "js-cookie";
 
 // const BASE_URL = "http://192.168.1.108:8000/api/v1/notification";
 const BASE_URL = NOTIFICATION_URL;
@@ -15,13 +15,13 @@ export const fetchNotifications = createAsyncThunk(
       
       const res = await axios.get(`${BASE_URL}/get-all-notifications` , {
          headers: {
-                  Authorization: `Bearer ${authToken}`,
+                  Authorization: `Bearer ${Cookies.get("authToken")}`,
                 },
       }
         
       );
       
-      console.log(res);
+      // console.log(res);
       return res.data.data
         .slice()
         .reverse()
@@ -71,7 +71,7 @@ export const markNotificationAsRead = createAsyncThunk(
         {},
         {
           headers: {
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${Cookies.get("authToken")}`,
           },
         }
       );
@@ -90,7 +90,7 @@ export const markAllNotificationsAsRead = createAsyncThunk(
     try {
       await axios.put(`${BASE_URL}/mark-all-as-read`, {}, {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${Cookies.get("authToken")}`,
         },
       });
       return true;
@@ -109,7 +109,7 @@ export const deleteNotificationById = createAsyncThunk(
     try {
       await axios.delete(`${BASE_URL}/delete-notification/${id}`, {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${Cookies.get("authToken")}`,
         },
       });
       return id;
@@ -127,7 +127,7 @@ export const deleteAllNotificationsFromServer = createAsyncThunk(
     try {
       await axios.delete(`${BASE_URL}/delete-all-notifications`, {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${Cookies.get("authToken")}`,
         },
       });
       return true;
@@ -146,7 +146,7 @@ export const startNotificationListener = createAsyncThunk(
   "notifications/startListener",
   async (_, { dispatch, rejectWithValue }) => {
     try {
-      const es = new EventSource(`${BASE_URL}/get-updates?token=${authToken}` );
+      const es = new EventSource(`${BASE_URL}/get-updates?token=${Cookies.get("authToken")}` );
 
       es.onopen = () => dispatch(setConnectionStatus("Connected"));
       es.onerror = () => {

@@ -7,6 +7,7 @@ import {
   ADMIN_SERVICES_URL,
   authToken,
 } from "../../../../config";
+import Cookies from "js-cookie";
 
 // ✅ Fetch all public services
 export const fetchServices = createAsyncThunk(
@@ -14,6 +15,7 @@ export const fetchServices = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(SERVICES_BASE_URL);
+      // console.log(response)
       return response.data?.data || [];
     } catch (error) {
       toast.error("Failed to fetch services");
@@ -31,13 +33,13 @@ export const adminFetchServices = createAsyncThunk(
         `${ADMIN_SERVICES_URL}/get-parlour-services`,
         {
           headers: {
-                     "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data",
 
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${Cookies.get("authToken")}`,
           },
         }
       );
-      console.log(response.data.data)
+      // console.log(response.data.data);
       return response.data?.data || [];
     } catch (error) {
       toast.error("Failed to fetch admin services");
@@ -56,17 +58,19 @@ export const addService = createAsyncThunk(
         serviceData,
         {
           headers: {
-                    "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data",
 
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${Cookies.get("authToken")}`,
           },
         }
       );
-      toast.success("Service added successfully");
-      return response.data?.data;
+      // console.log(response)
+      // console.log(response.data?.message)
+      return response.data?.message;
     } catch (error) {
-      toast.error("Failed to add service");
-      return rejectWithValue(error.response?.data || "Something went wrong");
+      // toast.error("Failed to add service");
+console.log(error.response.data.detail)
+      return rejectWithValue(error.response.data.detail[0].msg|| "Something went wrong");
     }
   }
 );
@@ -76,23 +80,23 @@ export const updateService = createAsyncThunk(
   "services/update",
   async ({ id, updates }, { rejectWithValue }) => {
     try {
-      console.log(updates)
+      // console.log(updates);
       const response = await axios.patch(
         `${ADMIN_SERVICES_URL}/update-parlour-service/${id}`,
         updates,
         {
           headers: {
-                     "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data",
 
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${Cookies.get("authToken")}`,
           },
         }
       );
-      toast.success("Service updated successfully");
-      return response.data?.data;
+      console.log(response.data?.message)
+      return response.data?.message;
     } catch (error) {
-      toast.error("Failed to update service");
-      return rejectWithValue(error.response?.data || "Something went wrong");
+        console.log(error)
+      return rejectWithValue(error.response.data.detail || "Something went wrong");
     }
   }
 );
@@ -104,50 +108,44 @@ export const deleteService = createAsyncThunk(
     try {
       await axios.delete(`${ADMIN_SERVICES_URL}/delete-parlour-service/${id}`, {
         headers: {
-                  "Content-Type": "multipart/form-data",
-
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${Cookies.get("authToken")}`,
         },
       });
-      toast.success("Service deleted successfully");
-      return id;
+      return "Service deleted successfully";
     } catch (error) {
-      toast.error("Failed to delete service");
-      return rejectWithValue(error.response?.data || "Something went wrong");
+      console.log(error)
+      return rejectWithValue(
+        error.response.data.detail || "Something went wrong while deleting service"
+      );
     }
   }
 );
+
 
 // ✅ Update service status (active/inactive)
 export const updateServiceStatus = createAsyncThunk(
   "services/updateStatus",
   async ({ id, status }, { rejectWithValue }) => {
     try {
-      console.log(id,status)
+      console.log(id, status);
       const formData = new URLSearchParams();
       formData.append("status", status); // status = true/false
 
-      await axios.put(
-        `${ADMIN_SERVICES_URL}/update-status/${id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${authToken}`,
-          },
-        }
-      );
+      await axios.put(`${ADMIN_SERVICES_URL}/update-status/${id}`, formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${Cookies.get("authToken")}`,
+        },
+      });
       return { id, status };
     } catch (error) {
       return rejectWithValue(
-        error.response?.data || "An error occurred while updating service status"
+        error.response?.data.detail ||
+          "An error occurred while updating service status"
       );
     }
   }
 );
-
-
-
 
 // export const updateCategoryStatus = createAsyncThunk(
 //   "categories/updateStatus",
@@ -176,7 +174,6 @@ export const updateServiceStatus = createAsyncThunk(
 //   }
 // );
 
-
 // ✅ Services slice
 const servicesSlice = createSlice({
   name: "services",
@@ -184,78 +181,98 @@ const servicesSlice = createSlice({
     services: [],
     loading: false,
     error: null,
+    updatingService: false,
   },
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchServices.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchServices.fulfilled, (state, action) => {
-        state.loading = false;
-        state.services = action.payload;
-      })
-      .addCase(fetchServices.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+  builder
+    // 🔁 Public Fetch Services
+    .addCase(fetchServices.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(fetchServices.fulfilled, (state, action) => {
+      state.loading = false;
+      state.services = action.payload;
+    })
+    .addCase(fetchServices.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
-      .addCase(adminFetchServices.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(adminFetchServices.fulfilled, (state, action) => {
-        state.loading = false;
-        state.services = action.payload;
-      })
-      .addCase(adminFetchServices.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+    // 🔁 Admin Fetch Services
+    .addCase(adminFetchServices.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(adminFetchServices.fulfilled, (state, action) => {
+      state.loading = false;
+      state.services = action.payload;
+    })
+    .addCase(adminFetchServices.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
-      .addCase(addService.fulfilled, (state, action) => {
-        state.services.unshift(action.payload);
-      })
+    // ➕ Add Service
+    .addCase(addService.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(addService.fulfilled, (state, action) => {
+      state.loading = false;
+      // No change to services list as only message is returned.
+    })
+    .addCase(addService.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
-      .addCase(updateService.fulfilled, (state, action) => {
-        const index = state.services.findIndex(
-          (srv) => srv.id === action.payload.id
-        );
-        if (index !== -1) state.services[index] = action.payload;
-      })
+    // ✏️ Update Service
+    .addCase(updateService.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(updateService.fulfilled, (state, action) => {
+      state.loading = false;
+      // No service object returned, just message, so skip update
+    })
+    .addCase(updateService.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
-      .addCase(deleteService.fulfilled, (state, action) => {
-        state.services = state.services.filter(
-          (srv) => srv.id !== action.payload
-        );
-      })
+    // ❌ Delete Service
+    .addCase(deleteService.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(deleteService.fulfilled, (state, action) => {
+      state.loading = false;
+      // No ID returned, so cannot filter services list here unless thunk returns ID
+    })
+    .addCase(deleteService.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
 
-     .addCase(updateServiceStatus.fulfilled, (state, action) => {
-  const { id, status } = action.payload;
-  const service = state.services.find((s) => s.id === id);
-  if (service) {
-    service.is_active = status; // ✅ fix here
-  }
-})
+    // 🔄 Update Service Status
 
-
-// .addCase(updateCategoryStatus.fulfilled, (state, action) => {
-//   const { id, status } = action.payload;
-//   const category = state.categories.find((c) => c.id === id);
-//   if (category) {
-//     category.status = status; // status is "active" or "inactive"
-//   }
-// })
-
-//   },
-
-
-      .addCase(updateServiceStatus.rejected, (state, action) => {
-        state.error = action.payload || "Failed to update service status.";
-        toast.error(state.error);
-      });
-  },
+    .addCase(updateServiceStatus.fulfilled, (state, action) => {
+      state.loading = false;
+      const { id, status } = action.payload;
+      const service = state.services.find((s) => s.id === id);
+      if (service) {
+        service.is_active = status;
+      }
+    })
+    .addCase(updateServiceStatus.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload || "Failed to update service status.";
+      toast.error(state.error);
+    });
+}
+,
 });
 
 export default servicesSlice.reducer;

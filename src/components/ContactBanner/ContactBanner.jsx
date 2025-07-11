@@ -1,36 +1,46 @@
 import React from 'react';
 import { Phone, Clock, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
-
-const contactItems = [
-  {
-    id: 1,
-    icon: Phone,
-    title: "Need Beauty Services?",
-    info: "Call: +91 9876543210",
-    isLink: false,
-  },
-  {
-    id: 2,
-    icon: Clock,
-    title: "Opening Hours",
-    info: "Mon - Sun: 10:00 AM - 8:00 PM",
-    isLink: false,
-  },
-  {
-    id: 3,
-    icon: MapPin,
-    title: "Visit Our Studio",
-    info: "Indore Tech Valley, Indore",
-    isLink: true,
-    href: "https://www.google.com/maps/search/?api=1&query=Indore+Tech+Valley,indore",
-  },
-];
+import { useSelector } from "react-redux";
 
 const ContactBanner = () => {
+  // ✅ Use config object directly
+  const config = useSelector((state) => state.config?.config || {});
+
+  const phone = config.contact_number || "+91 9876543210";
+  const hours = config.opening_hour || "Mon - Sun: 10:00 AM - 8:00 PM";
+  const address = config.contact_address || "Indore Tech Valley, Indore";
+  const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+
+  const contactItems = [
+    {
+      id: 1,
+      icon: Phone,
+      title: "Need Beauty Services?",
+      info: phone,
+      isLink: true,
+      href: `tel:${phone}`,
+    },
+    {
+      id: 2,
+      icon: Clock,
+      title: "Opening Hours",
+      info: hours,
+      isLink: false,
+    },
+    {
+      id: 3,
+      icon: MapPin,
+      title: "Visit Our Studio",
+      info: address,
+      isLink: true,
+      href: mapLink,
+    },
+  ];
+
   return (
     <div className="w-full bg-rose-50 text-rose-900 lg:py-8 py-6">
-      <div className="max-w-7xl mx-auto px-6  flex flex-col md:flex-col lg:flex-row justify-around">
+      <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-col lg:flex-row justify-around">
         {contactItems.map(({ id, icon: Icon, title, info, isLink, href }, index) => (
           <React.Fragment key={id}>
             <motion.div
@@ -70,6 +80,6 @@ const ContactBanner = () => {
       </div>
     </div>
   );
-}
+};
 
 export default ContactBanner;

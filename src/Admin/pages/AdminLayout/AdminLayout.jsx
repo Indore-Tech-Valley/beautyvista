@@ -4,29 +4,30 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import NavigationHeader from '../../components/NaviagationHeader/NavigationHeader';
 import { Menu } from 'lucide-react';
 import Cookies from 'js-cookie';
+import { fetchAdminProfile } from '../../../redux/features/adminProfileSlice/adminProfileSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const AdminLayout = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  // 👇 Check for auth token on mount
-  // useEffect(() => {
-  //   const token = Cookies.get("authToken");
-  //   if (!token) {
-  //     navigate("/admin/login");
-  //   }
-  // }, [navigate]);
+  const { data: currentUser } = useSelector((state) => state.adminProfile);
 
+  // 🔐 Auth check and profile fetch
+  useEffect(() => {
+    const token = Cookies.get('authToken');
+    if (!token) {
+      navigate('/admin/login');
+    } else if (!currentUser) {
+      dispatch(fetchAdminProfile());
+    }
+  }, [navigate, dispatch, currentUser]);
+
+  // 🚪 Logout
   const handleLogout = () => {
-    Cookies.remove("authToken");
-    navigate("/admin");
-  };
-
-  const currentUser = {
-    name: 'Admin User',
-    email: 'admin@beautyvista.com',
-    role: 'Super Admin',
-    avatar: 'https://ui-avatars.com/api/?name=Admin+User&background=ec4899&color=fff'
+    Cookies.remove('authToken');
+    navigate('/admin');
   };
 
   return (
@@ -34,7 +35,7 @@ const AdminLayout = () => {
       {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {/* Overlay when sidebar is open */}
+      {/* Overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-40 md:hidden cursor-pointer"
@@ -43,39 +44,26 @@ const AdminLayout = () => {
         />
       )}
 
-      {/* Main Area */}
+      {/* Main Content */}
       <div className="flex flex-col flex-1 w-0 overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between md:justify-end px-4 py-3 bg-white shadow-sm sticky top-0 z-30 border-gray-200">
+        <div className="flex items-center justify-between lg:justify-end px-4 py-3 bg-white shadow-sm sticky top-0 z-30 border-gray-200">
           <button
-            className="text-gray-600 md:hidden"
+            className="text-gray-600 lg:hidden"
             onClick={() => setSidebarOpen(true)}
             aria-label="Toggle Sidebar"
           >
             <Menu size={24} />
           </button>
 
-          {/* Desktop Header */}
-          <div className="hidden md:block">
+          {/* Navigation Header */}
+          <div className="md:block">
             <NavigationHeader currentUser={currentUser} onLogout={handleLogout} />
-          </div>
-
-          {/* Mobile Info */}
-          <div className="flex md:hidden items-center gap-3">
-            <img
-              src={currentUser.avatar}
-              alt="avatar"
-              className="w-8 h-8 rounded-full object-cover"
-            />
-            <div className="text-sm">
-              <p className="font-medium text-gray-900">{currentUser.name}</p>
-              <p className="text-gray-500 text-xs">{currentUser.email}</p>
-            </div>
           </div>
         </div>
 
-        {/* Page Content */}
-        <main className="flex-1 overflow-y-auto md:p-6">
+        {/* Routed Page Content */}
+        <main className="flex-1 overflow-y-auto bg-white md:p-6">
           <Outlet />
         </main>
       </div>

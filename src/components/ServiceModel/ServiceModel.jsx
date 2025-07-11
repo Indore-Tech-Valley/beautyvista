@@ -59,7 +59,7 @@ const ServiceModal = ({ service, onClose, setMenuOpen }) => {
 
   if (!isOpen || !service) return null;
 
-  const beforeAfter = service.before_after || [];
+  const beforeAfter = service.before_after || {};
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
@@ -147,29 +147,29 @@ const ServiceModal = ({ service, onClose, setMenuOpen }) => {
           </div>
 
           {/* Before & After */}
-          {beforeAfter.length >= 2 && (
-            <div className="mb-8">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">Before & After</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <img
-                    src={beforeAfter[0]}
-                    alt="Before treatment"
-                    className="w-full h-64 object-cover rounded-lg mb-2"
-                  />
-                  <span className="text-sm text-gray-600">Before</span>
-                </div>
-                <div className="text-center">
-                  <img
-                    src={beforeAfter[1]}
-                    alt="After treatment"
-                    className="w-full h-64 object-cover rounded-lg mb-2"
-                  />
-                  <span className="text-sm text-gray-600">After</span>
-                </div>
-              </div>
-            </div>
-          )}
+    {service.before_after?.before_image && service.before_after?.after_image && (
+  <div className="mb-8">
+    <h3 className="text-xl font-bold text-gray-800 mb-4">Before & After</h3>
+    <div className="grid grid-cols-2 gap-4">
+      <div className="text-center">
+        <img
+          src={service.before_after.before_image}
+          alt="Before treatment"
+          className="w-full h-64 object-cover rounded-lg mb-2"
+        />
+        <span className="text-sm text-gray-600">Before</span>
+      </div>
+      <div className="text-center">
+        <img
+          src={service.before_after.after_image}
+          alt="After treatment"
+          className="w-full h-64 object-cover rounded-lg mb-2"
+        />
+        <span className="text-sm text-gray-600">After</span>
+      </div>
+    </div>
+  </div>
+)}
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4">

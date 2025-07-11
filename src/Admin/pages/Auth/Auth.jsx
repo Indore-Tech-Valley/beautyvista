@@ -3,7 +3,7 @@ import { Scissors } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAdmin } from '../../../redux/features/authSlice/authSlice';
-
+import { adminFetchAppointments } from '../../../redux/features/appointmentSlice/appointmentSlice';
 const Auth = () => {
   const [loginData, setLoginData] = useState({ username: '', password: '' });
 
@@ -22,7 +22,8 @@ const Auth = () => {
       .unwrap()
       .then((res) => {
         console.log(res);
-        navigate('/admin/users');
+       navigate("/admin/dashboard", { replace: true });
+
       })
       .catch((err) => {
         console.log(err);
@@ -30,10 +31,14 @@ const Auth = () => {
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/admin/dashboard');
-    }
-  }, [isAuthenticated, navigate]);
+  if (error) {
+    // Clear error when loginData changes
+    setLoginData((prev) => ({ ...prev })); // triggers rerender
+  }
+}, [loginData.username, loginData.password]);
+
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50 flex items-center justify-center p-4">
@@ -84,10 +89,17 @@ const Auth = () => {
             </div>
 
             {error && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm">
-                {error}
-              </div>
-            )}
+  <div
+    className={`px-4 py-3 rounded-lg text-sm ${
+      error.status === 429
+        ? 'bg-yellow-100 border border-yellow-400 text-yellow-800'
+        : 'bg-red-100 border border-red-400 text-red-800'
+    }`}
+  >
+    {error.message}
+  </div>
+)}
+
 
             <button
               type="submit"

@@ -12,9 +12,25 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { addContact } from "../../redux/features/contactFormSlice/contactFormSlice";
 import { toast, ToastContainer } from "react-toastify";
+import { fetchConfig } from "../../redux/features/Configs/configs";
+import MessageModal from '../MessageModal/MessageModal';
+
 
 const ContactForm = () => {
   const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+const config = useSelector((state) => state.config?.config || []);
+
+useEffect(() => {
+  dispatch(fetchConfig());
+}, [dispatch]);
+
+// Helper to get config value by key
+// const getConfigValue = (key) => {
+//   const item = config.find((item) => item.key === key);
+//   return item?.value || "";
+// };
+
 const loading = useSelector((state) => state.contacts?.loading);
 const error = useSelector((state) => state.contacts?.error);
 
@@ -30,6 +46,20 @@ const error = useSelector((state) => state.contacts?.error);
     phone: '',
     message: '',
   });
+
+  const [modal, setModal] = useState({
+    show: false,
+    type: "success",
+    message: "",
+  });
+
+  const openModal = (type, message) => {
+    setModal({ show: true, type, message });
+  };
+
+  const closeModal = () => {
+    setModal({ ...modal, show: false });
+  };
 
   // Auto-clear success message after 5 seconds
   useEffect(() => {
@@ -96,46 +126,70 @@ const error = useSelector((state) => state.contacts?.error);
       ).unwrap();
 
       setFormSuccess(res.message || "Message sent successfully!");
-      toast.success(res.message || "Message sent successfully!");
+     openModal("success",res.message || "Message sent successfully!");
       setFormData({ firstName: "", lastName: "", email: "", phone: "", message: "" });
     } catch (err) {
-      toast.error(err || "Failed to send message");
+      openModal("error",err || "Failed to send message");
     }
   };
 
   return (
     <div>
+      {/* Message Modal */}
+      {modal.show && (
+        <MessageModal
+          type={modal.type}
+          message={modal.message}
+          onClose={closeModal}
+        />
+      )}
       <section className="max-w-7xl mx-auto px-6 lg:py-8 py-6">
         <div className="flex flex-col lg:flex-row lg:gap-20 gap-8 items-start">
 
           {/* Left Column - Contact Info */}
           <div className="w-full lg:w-1/2 space-y-10">
             <div>
-              <h2 className="text-4xl lg:text-5xl font-bold text-rose-900 mb-4">Get In Touch</h2>
+              <h2 className="text-4xl lg:text-5xl font-bold text-rose-900 mb-4">
+                {/* Get In Touch */}
+                {config.contact_page_title}
+                </h2>
               <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">
-                Have any questions? We're always here to assist you and make your experience smooth and comfortable!
+                {config.contact_page_description}
+                {/* Have any questions? We're always here to assist you and make your experience smooth and comfortable! */}
               </p>
             </div>
 
             <div className="space-y-5">
               <div className="flex items-center gap-4 p-5 border rounded-2xl shadow-sm bg-white">
                 <FaPhoneAlt className="text-rose-700 text-2xl" />
-                <span className="text-lg">+0123456789</span>
+<span className="text-lg">{config.contact_number}</span>
+
               </div>
               <div className="flex items-center gap-4 p-5 bg-rose-700 text-white rounded-2xl shadow-sm">
-                <FaEnvelope className="text-2xl" />
-                <span className="text-lg">example@email.com</span>
+             <FaEnvelope className="text-2xl" />
+<span className="text-lg">{config.contact_email}</span>
+
               </div>
               <div className="flex items-center gap-4 p-5 border rounded-2xl shadow-sm hover:bg-rose-50 transition cursor-pointer">
                 <FaMapMarkerAlt className="text-rose-700 text-2xl" />
                 <a
-                  href="https://www.google.com/maps/search/?api=1&query=Indore+tech+Valley,indore"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-lg text-gray-800"
-                >
-                  Indore Tech Valley, Indore
-                </a>
+  href="https://www.google.com/maps/search/?api=1&query=Indore+tech+Valley,indore"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-lg text-gray-800"
+>
+  Indore Tech Valley, Indore
+</a>
+
+              {/* <a
+  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(getConfigValue("contact_address"))}`}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="text-lg text-gray-800"
+>
+  {getConfigValue("contact_address")}
+</a> */}
+
               </div>
               <span className="text-sm text-rose-500 block">
                 Note: Click on location to get directions to our beauty studio.
@@ -143,21 +197,31 @@ const error = useSelector((state) => state.contacts?.error);
             </div>
 
             {/* Social Icons */}
-            <div className="flex items-center gap-4">
-              {[FaFacebookF, FaTwitter, FaInstagram].map((Icon, idx) => (
-                <div
-                  key={idx}
-                  className="relative w-12 h-12 bg-rose-700 text-white rounded-full overflow-hidden group transition"
-                >
-                  <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-full">
-                    <Icon className="text-lg" />
-                  </span>
-                  <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 translate-y-full group-hover:translate-y-0">
-                    <Icon className="text-lg" />
-                  </span>
-                </div>
-              ))}
-            </div>
+       <div className="flex items-center gap-4">
+  {[
+    { Icon: FaFacebookF, link: config.social_link_facebook },
+    { Icon: FaTwitter, link: config.social_link_twitter },
+    { Icon: FaInstagram, link: config.social_link_instagram },
+  ].map(({ Icon, link }, idx) => (
+    <a
+      key={idx}
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="relative w-12 h-12 bg-rose-700 text-white rounded-full overflow-hidden group transition"
+    >
+      <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 group-hover:-translate-y-full">
+        <Icon className="text-lg" />
+      </span>
+      <span className="absolute inset-0 flex items-center justify-center transition-transform duration-300 translate-y-full group-hover:translate-y-0">
+        <Icon className="text-lg" />
+      </span>
+    </a>
+  ))}
+</div>
+
+
+
           </div>
 
           {/* Right Column - Contact Form */}

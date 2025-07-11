@@ -7,6 +7,8 @@
   import authReducer from '../features/authSlice/authSlice'
   import notificationReducer from '../features/notificationSlice/notificationSlice'
   import usersReducer from '../features/usersSlice/usersSlice'
+import adminProfile from '../features/adminProfileSlice/adminProfileSlice'
+import configReducer from '../features/Configs/configs'
 
   const store = configureStore({
     reducer: {
@@ -18,6 +20,8 @@
       auth: authReducer,
       notifications : notificationReducer,
       usersReducer : usersReducer,
+      adminProfile : adminProfile,
+      config: configReducer,
     },
   });
 

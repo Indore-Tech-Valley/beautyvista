@@ -94,7 +94,7 @@ const WhyChooseUs = () => {
 
         {/* Images Section */}
         <motion.div
-          className="w-full lg:w-1/2 flex items-stretch"
+          className="w-full lg:w-1/2 h-full flex items-stretch"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.6 }}

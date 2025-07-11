@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { toast } from "react-toastify";
-import {  ADMIN_USERS_BASE_URL, authToken } from "../../../../config";
+import {  ADMIN_USERS_BASE_URL} from "../../../../config";
+import Cookies from "js-cookie";
 
 // ✅ Fetch all users
 export const fetchAllUsers = createAsyncThunk(
@@ -10,13 +11,15 @@ export const fetchAllUsers = createAsyncThunk(
     try {
       const response = await axios.get(`${ADMIN_USERS_BASE_URL}/get-users`, {
         headers: {
-          Authorization: `Bearer ${authToken}`,
+          Authorization: `Bearer ${Cookies.get("authToken")}`,
         },
       });
+      // console.log(response)
       return response.data?.data || [];
     } catch (err) {
-      toast.error("Failed to fetch users");
-      return rejectWithValue(err.response?.data || "Something went wrong");
+      // toast.error("Failed to fetch users");
+      console.log(err)
+      return rejectWithValue(err?.message|| "Something went wrong");
     }
   }
 );
@@ -29,28 +32,30 @@ export const updateUser = createAsyncThunk(
       const formData = new FormData();
       formData.append("name", userData.name || "");
       formData.append("email", userData.email || "");
-      formData.append("role", userData.role || "");
-      formData.append("is_active", userData.is_active ? "true" : "false");
+      // formData.append("role", userData.role || "");
+      formData.append("status", userData.is_active);
         if (userData.profile_image instanceof File) {
         formData.append("profile_image", userData.profile_image);
       }
 
       const response = await axios.patch(
-        `${USERS_BASE_URL}/update-user/${userData.id}`,
+        `${ADMIN_USERS_BASE_URL}/update-user/${userData.id}`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${authToken}`,
+            Authorization: `Bearer ${Cookies.get("authToken")}`,
           },
         }
       );
-
-      toast.success("User updated successfully");
-      return response.data?.data;
+console.log(response.data.message)
+      return response.data?.message;
     } catch (err) {
-      toast.error("Failed to update user");
-      return rejectWithValue(err.response?.data || "Something went wrong");
+      // console.log(err.response.data.detail)
+
+      // console.log(err.message)
+      // toast.error("Failed to update user");
+      return rejectWithValue(err.response.data.detail || "Something went wrong");
     }
   }
 );
@@ -60,42 +65,48 @@ export const updateUser = createAsyncThunk(
 const usersSlice = createSlice({
   name: "users",
   initialState: {
-    users: [],
-    loading: false,
-    error: null,
-  },
+  users: [],
+  loadingUsers: false,
+  updatingUser: false,
+  error: null,
+}
+,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchAllUsers.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchAllUsers.fulfilled, (state, action) => {
-        state.loading = false;
-        state.users = action.payload;
-      })
-      .addCase(fetchAllUsers.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+     // Fetch users
+.addCase(fetchAllUsers.pending, (state) => {
+  state.loadingUsers = true;
+  state.error = null;
+})
+.addCase(fetchAllUsers.fulfilled, (state, action) => {
+  state.loadingUsers = false;
+  state.users = action.payload;
+})
+.addCase(fetchAllUsers.rejected, (state, action) => {
+  state.loadingUsers = false;
+  state.error = action.payload;
+})
 
-      .addCase(updateUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(updateUser.fulfilled, (state, action) => {
-        state.loading = false;
-        const updatedUser = action.payload;
-        const index = state.users.findIndex((u) => u.id === updatedUser.id);
-        if (index !== -1) {
-          state.users[index] = updatedUser;
-        }
-      })
-      .addCase(updateUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      });
+// Update user
+.addCase(updateUser.pending, (state) => {
+  state.updatingUser = true;
+  state.error = null;
+})
+.addCase(updateUser.fulfilled, (state, action) => {
+  // console.log(state)
+  state.updatingUser = false;
+  const updatedUser = action.payload;
+  const index = state.users.findIndex((u) => u.id === updatedUser.id);
+  if (index !== -1) {
+    state.users[index] = updatedUser;
+  }
+})
+.addCase(updateUser.rejected, (state, action) => {
+  state.updatingUser = false;
+  state.error = action.payload;
+})
+
   },
 });
 

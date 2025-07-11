@@ -4,11 +4,15 @@ import {
   User,
   Shield,
   Save,
+  LayoutDashboard 
 } from 'lucide-react';
-import ProfileTab from './ProfileTab';
 import SecurityTab from './SecurityTab';
+import ProfileTab from './profileTab';
+import { useNavigate } from 'react-router-dom';
 
 const AdminProfile = () => {
+
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('profile');
 
   const handleSave = () => {
@@ -16,6 +20,7 @@ const AdminProfile = () => {
   };
 
   const tabs = [
+     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'profile', label: 'Profile', icon: User },
     { id: 'security', label: 'Security', icon: Shield },
   ];
@@ -47,23 +52,31 @@ const AdminProfile = () => {
             {/* Sidebar */}
             <div className="lg:w-1/4 bg-gray-50 p-6">
               <nav className="space-y-2">
-                {tabs.map((tab) => {
-                  const Icon = tab.icon;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`w-full flex items-center px-4 py-3 text-left rounded-lg transition-colors ${
-                        activeTab === tab.id
-                          ? 'bg-pink-600 text-white'
-                          : 'text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      <Icon className="mr-3" size={20} />
-                      {tab.label}
-                    </button>
-                  );
-                })}
+             {tabs.map((tab) => {
+  const Icon = tab.icon;
+  return (
+    <button
+      key={tab.id}
+      onClick={() => {
+        if (tab.id === 'dashboard') {
+          navigate('/admin/dashboard'); // ✅ useNavigate here
+        } else {
+          setActiveTab(tab.id);
+        }
+      }}
+      className={`w-full flex items-center px-4 py-3 text-left rounded-lg transition-colors ${
+        activeTab === tab.id
+          ? 'bg-pink-600 text-white'
+          : 'text-gray-700 hover:bg-gray-200'
+      }`}
+    >
+      <Icon className="mr-3" size={20} />
+      {tab.label}
+    </button>
+  );
+})}
+
+
               </nav>
             </div>
 
@@ -72,7 +85,7 @@ const AdminProfile = () => {
               {renderTabContent()}
 
               {/* Save Button */}
-              <div className="mt-8 flex justify-end">
+              {/* <div className="mt-8 flex justify-end">
                 <button
                   onClick={handleSave}
                   className="bg-pink-600 text-white px-6 py-3 rounded-lg hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition-colors font-medium flex items-center"
@@ -80,7 +93,7 @@ const AdminProfile = () => {
                   <Save className="mr-2" size={20} />
                   Save Changes
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

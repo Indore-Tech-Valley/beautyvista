@@ -21,11 +21,19 @@ export const loginAdmin = createAsyncThunk(
 
       const token = res.data.access_token; // Adjust if your response shape is different
       Cookies.set('authToken', token, { expires: 7 });
+      
       return token;
-    } catch (error) {
-      return rejectWithValue(
-        error.response?.data?.detail?.[0]?.msg || 'Login failed'
-      );
+    }catch (error) {
+      const status = error.response?.status;
+      const defaultMsg = 'Login failed. Please try again.';
+
+      // You can customize this further per status code
+      const message =
+        status === 429
+          ? 'Too many login attempts. Please wait and try again later.'
+          : error.response?.data?.detail?.[0]?.msg || defaultMsg;
+
+      return rejectWithValue({ message, status });
     }
   }
 );
@@ -55,13 +63,18 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(loginAdmin.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
+  state.loading = false;
+  state.error = {
+    message: action.payload?.message || 'Login failed',
+    status: action.payload?.status || null,
+  };
+})
+
       .addCase(logoutAdmin.fulfilled, (state) => {
         state.token = null;
         state.isAuthenticated = false;
-      });
+      })
+      ;
   },
 });
 

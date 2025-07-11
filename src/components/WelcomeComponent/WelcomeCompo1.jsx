@@ -47,7 +47,7 @@ function WelcomeCompo1() {
           <Swiper
             modules={[Pagination, Navigation, Autoplay]}
             spaceBetween={24}
-            slidesPerView={2}
+            slidesPerView={1}
             centeredSlides={true}
             autoplay={{
               delay: 4000,
